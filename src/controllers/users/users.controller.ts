@@ -21,6 +21,8 @@ import {
 } from 'src/commons/dtos/response.dto';
 
 import { IResponse } from 'src/commons/interfaces/response.interface';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+
 
 @Controller('v1/users')
 export class UsersController {
@@ -42,6 +44,7 @@ export class UsersController {
 
     @Post('update/:id')
     @HttpCode(200)
+    @UseGuards(JwtAuthGuard)
     async updateUser(@Param('id') userId: string, @Body() data: any) {
         try {
             await this.usersService.update(userId, data);
@@ -50,15 +53,6 @@ export class UsersController {
             throw new ResponseError('USER.UPDATE.FAILED');
         }
     }
-
-    @Get(':id')
-    @HttpCode(200)
-    async getMoneyAndPoint(@Param('id') userId: string): Promise<IResponse | HttpException> {
-        let user = await this.usersService.getUser(userId);
-        if (!user) throw new NotFoundException('USER.GET_USER.NOT_FOUND');
-        return new ResponseSuccess("USER.GET_USER.SUCCESSFULLY", user);
-    }
-
 
 
 }

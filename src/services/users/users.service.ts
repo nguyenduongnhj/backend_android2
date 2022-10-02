@@ -5,7 +5,6 @@ import {
     UserModel,
     User
 } from 'src/database/models/user.model';
-
 import { CreateUserDto } from 'src/commons/dtos/users/create-user.dto';
 
 @Injectable()

@@ -34,7 +34,62 @@ export class AuthController {
     constructor(
         private authService: AuthService,
         private usersService: UsersService,
-        private readonly mailerService: MailerService,
     ) { }
+
+
+    @Post('login')
+    @HttpCode(200)
+    async login(@Body() data: any): Promise<IResponse> {
+        return new ResponseSuccess("AUTH.LOGIN.USER_LOGIN_SUCCESSFULLY", await this.authService.login(data));
+    }
+
+
+    @Post('register')
+    @HttpCode(200)
+    async register(@Body() data: CreateUserDto): Promise<IResponse | HttpException> {
+        /* check extist user */
+        console.log(data);
+        const userExistsByUsername = await this.usersService.existsByUsername(data.user_name);
+        if (userExistsByUsername) {
+            throw new ConflictException('AUTH.REGISTER.CONFLICT_USERNAME');
+        }
+
+        const userExistsByEmail = await this.usersService.existsByEmail(data.email);
+        if (userExistsByEmail) {
+            throw new ConflictException('AUTH.REGISTER.CONFLICT_EMAIL');
+        }
+
+        if (data.phone_number) {
+            const userExistsByPhoneNumber = await this.usersService.existsByPhoneNumber(data.phone_number);
+            if (userExistsByPhoneNumber) {
+                throw new ConflictException('AUTH.REGISTER.CONFLICT_PHONENUMBER');
+            }
+        }
+        /********/
+        try {
+            await this.authService.register(data);
+
+
+            return new ResponseSuccess("AUTH.REGISTER.SUCCESSFULLY");
+        } catch (error) {
+            throw new BadRequestException('AUTH.REGISTER.FAILED');
+        }
+    }
+
+
+    @UseGuards(JwtAuthGuard)
+    @Post('change_password')
+    @HttpCode(200)
+    async changePassword(@Request() req: any, @Body() data: ChangePasswordDto): Promise<IResponse> {
+        let user = req.user;
+        let { old_pass, new_pass } = data;
+
+        if (await this.authService.changePassword(user.id, old_pass, new_pass)) {
+            return new ResponseSuccess("AUTH.CHANGE_PASSWORD.SUCCESSFULLY");
+        }
+
+        return new ResponseError("AUTH.CHANGE_PASSWORD.FAILED");
+    }
+
 
 }
