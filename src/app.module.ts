@@ -19,7 +19,6 @@ import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { UsersService } from './services/users/users.service';
 import { AllExceptionsFilter } from './commons/filters/all-exception.filter';
-import { JobsController } from './controller/jobs/jobs.controller';
 import { JobsController } from './controllers/jobs/jobs.controller';
 import { InvestorsController } from './controllers/investors/investors.controller';
 import { HistoryController } from './controllers/history/history.controller';

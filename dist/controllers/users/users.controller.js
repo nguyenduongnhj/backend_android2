@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("../../services/users/users.service");
 const response_dto_1 = require("../../commons/dtos/response.dto");
 const response_interface_1 = require("../../commons/interfaces/response.interface");
+const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -40,12 +41,6 @@ let UsersController = class UsersController {
             throw new response_dto_1.ResponseError('USER.UPDATE.FAILED');
         }
     }
-    async getMoneyAndPoint(userId) {
-        let user = await this.usersService.getUser(userId);
-        if (!user)
-            throw new common_1.NotFoundException('USER.GET_USER.NOT_FOUND');
-        return new response_dto_1.ResponseSuccess("USER.GET_USER.SUCCESSFULLY", user);
-    }
 };
 __decorate([
     common_1.Post('create'),
@@ -58,20 +53,13 @@ __decorate([
 __decorate([
     common_1.Post('update/:id'),
     common_1.HttpCode(200),
+    common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, common_1.Param('id')),
     __param(1, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "updateUser", null);
-__decorate([
-    common_1.Get(':id'),
-    common_1.HttpCode(200),
-    __param(0, common_1.Param('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], UsersController.prototype, "getMoneyAndPoint", null);
 UsersController = __decorate([
     common_1.Controller('v1/users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

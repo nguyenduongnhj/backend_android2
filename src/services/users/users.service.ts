@@ -19,7 +19,7 @@ export class UsersService {
     }
 
     async existsByUsername(username: string): Promise<boolean> {
-        return await UserModel.exists({ username });
+        return await UserModel.exists({ user_name: username });
     }
 
     async existsByPhoneNumber(phone_number: string): Promise<boolean> {

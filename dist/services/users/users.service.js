@@ -18,7 +18,7 @@ let UsersService = class UsersService {
         return await user_model_1.UserModel.exists({ email });
     }
     async existsByUsername(username) {
-        return await user_model_1.UserModel.exists({ username });
+        return await user_model_1.UserModel.exists({ user_name: username });
     }
     async existsByPhoneNumber(phone_number) {
         return await user_model_1.UserModel.exists({ phone_number });

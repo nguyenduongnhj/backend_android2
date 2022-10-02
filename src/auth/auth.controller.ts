@@ -91,5 +91,16 @@ export class AuthController {
         return new ResponseError("AUTH.CHANGE_PASSWORD.FAILED");
     }
 
+    @Post('check_username')
+    @HttpCode(200)
+    async checkUsername(@Body() data: any): Promise<IResponse> {
+        let userName = data.username;
+        console.log(userName)
+        let check = await this.usersService.existsByUsername(userName)
+        return new ResponseSuccess("AUTH.CHECK_EMPTY_USER.SUCCESSFULLY", !check);
+
+    }
+
+
 
 }

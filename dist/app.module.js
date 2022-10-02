@@ -21,6 +21,12 @@ const app_service_1 = require("./app.service");
 const auth_service_1 = require("./auth/auth.service");
 const users_service_1 = require("./services/users/users.service");
 const all_exception_filter_1 = require("./commons/filters/all-exception.filter");
+const jobs_controller_1 = require("./controllers/jobs/jobs.controller");
+const investors_controller_1 = require("./controllers/investors/investors.controller");
+const history_controller_1 = require("./controllers/history/history.controller");
+const history_service_1 = require("./services/history/history.service");
+const investors_service_1 = require("./services/investors/investors.service");
+const jobs_service_1 = require("./services/jobs/jobs.service");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -42,12 +48,18 @@ AppModule = __decorate([
             app_controller_1.AppController,
             auth_controller_1.AuthController,
             users_controller_1.UsersController,
+            jobs_controller_1.JobsController,
+            investors_controller_1.InvestorsController,
+            history_controller_1.HistoryController,
         ],
         providers: [
             app_service_1.AppService,
             auth_service_1.AuthService,
             users_service_1.UsersService,
             all_exception_filter_1.AllExceptionsFilter,
+            history_service_1.HistoryService,
+            investors_service_1.InvestorsService,
+            jobs_service_1.JobsService,
         ]
     })
 ], AppModule);

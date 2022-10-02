@@ -4,18 +4,18 @@ export default {
         url: "http://222.252.92.106:3000",
         port: "3000",
         cors_options: {
-            origins: ["http://127.0.0.1:3000","http://localhost:3000"],
+            origins: ["http://127.0.0.1:3000", "http://localhost:3000"],
             methods: ['GET', 'PUT', 'POST']
         }
     },
     mongodb: {
-        uri: "mongodb://127.0.0.1:27017/javacard"
+        uri: "mongodb://127.0.0.1:27017/android2"
     },
     jwt: {
         secretOrKey: "doragon",
         expiresIn: 36000000
     },
-    mail :{
+    mail: {
         host: "smtp.gmail.com",
         port: 465,
         secure: true,
@@ -32,7 +32,7 @@ export default {
         }
     },
     files: {
-        defaultsFolderName:"",
+        defaultsFolderName: "",
         baseDirectory: './storage',
         imagesFolderName: 'images',
         imagesAvatarFolderName: 'images/avatars',
