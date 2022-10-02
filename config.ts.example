@@ -1,0 +1,55 @@
+export default {
+    app: {
+        name: "Studyduo",
+        url: "http://127.0.0.1:3000",
+        port: "3000",
+        cors_options: {
+            origins: ["http://127.0.0.1:3000","http://localhost:3000"],
+            methods: ['GET', 'PUT', 'POST']
+        }
+    },
+    mongodb: {
+        uri: "mongodb://127.0.0.1:27017/base"
+    },
+    jwt: {
+        secretOrKey: "secret",
+        expiresIn: 36000000
+    },
+    mail :{
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        user: "nvmanh66@gmail.com",
+        pass: "qnerfdxvgtwztoet",
+        from: {
+            address: 'info@studyduo.com',
+            name: 'Studyduo'
+        },
+        queue: {
+            name: 'mailer',
+            host: "127.0.0.1",
+            port: 6379
+        }
+    },
+    files: {
+        baseDirectory: './storage',
+        defaultsFolderName: 'defaults',
+        imagesFolderName: 'images',
+        imagesAvatarFolderName: 'images/avatars',
+        imagesPostFolderName: 'images/posts',
+        filesFolderName: 'files',
+        validImageMimetypes: [
+            'image/jpeg',
+            'image/pjpeg',
+            'image/png',
+            'image/gif',
+            'image/svg+xml',
+        ],
+        validImageExtensions: [
+            'jpg',
+            'jpeg',
+            'png',
+            'gif'
+        ]
+    }
+}

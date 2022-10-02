@@ -1,0 +1,46 @@
+version: '3.8' # specify docker-compose version
+# Define the services/containers to be run
+services:
+  app:
+    # this build context will take the commands from Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: studyduo_app
+    restart: always
+    environment:
+      - MONGODB_URI=mongodb://mongodb/studyduo_db
+    
+    # application port, this is take value from env file
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    # application rely on mongodb running
+    depends_on:
+      - mongodb
+    volumes:
+      - ./src:/app/src
+      - .env:/app/.env
+    networks:
+      - studyduo_backend
+  
+  # database
+  mongodb: 
+    image: mongo 
+    container_name: mongodb
+    restart: always
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    networks:
+      - studyduo_backend   
+     
+volumes:
+  mongodata: {} 
+
+networks:
+    studyduo_backend:
+      driver: bridge

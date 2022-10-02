@@ -1,0 +1,38 @@
+version: '3.3' # specify docker-compose version
+# Define the services/containers to be run
+services:
+  # database
+  mongodb: 
+    image: mongo 
+    container_name: mongodb
+    restart: always
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGODB_USERNAME: ${MONGODB_USERNAME}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+      MONGODB_DATABASE: ${MONGODB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    command: [--auth]
+    networks:
+      - studyduo_backend
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    restart: always
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    volumes:
+      - redis_data:/data
+    networks:
+      - studyduo_backend
+
+volumes:
+  mongodata: {}
+  redis_data: {}
+networks:
+  studyduo_backend:
+    driver: bridge
