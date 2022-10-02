@@ -17,26 +17,3 @@ export class UpdateUserAddressDto {
     @IsOptional()
     district?: District;
 }
-export class UpdateUserDto {
-    @IsOptional()
-    readonly first_name: string;
-
-    @IsOptional()
-    readonly phone_number: string;
-
-    @IsOptional()
-    readonly birthday: Date;
-
-    @IsOptional()
-    readonly point: number;
-
-    @IsOptional()
-    readonly money: number;
-
-    @IsOptional()
-    readonly cmtnd?: string;
-
-    @IsOptional()
-    readonly gender?: string;
-
-}

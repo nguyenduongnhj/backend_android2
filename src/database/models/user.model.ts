@@ -16,13 +16,15 @@ interface User extends Document {
     birthday?: Date;
     avatar?: string;
     gender: string;
+    email: string;
+    address: string;
+
+
     career: string;
     level: string;
-    address: string;
     introduct: string;
     exp: string;
     skill: string;
-    email: string;
 }
 
 type UserModel = Model<User>;

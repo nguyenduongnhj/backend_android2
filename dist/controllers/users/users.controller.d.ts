@@ -6,6 +6,6 @@ export declare class UsersController {
     private usersService;
     constructor(usersService: UsersService);
     createUser(data: any): Promise<ResponseSuccess>;
-    updateUser(data: any): Promise<ResponseSuccess>;
+    updateUser(userId: string, data: any): Promise<ResponseSuccess>;
     getMoneyAndPoint(userId: string): Promise<IResponse | HttpException>;
 }

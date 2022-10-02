@@ -19,10 +19,39 @@ const create_user_dto_1 = require("../commons/dtos/users/create-user.dto");
 const role_type_enum_1 = require("../commons/enum/role-type.enum");
 const config_1 = require("../config");
 const response_dto_1 = require("../commons/dtos/response.dto");
+const path_1 = require("path");
 let AuthService = class AuthService {
     constructor(usersService, jwtService) {
         this.usersService = usersService;
         this.jwtService = jwtService;
+    }
+    async validateUser(username, password) {
+        let filters = await this.username(username);
+        const user = await user_model_1.UserModel.findOne(filters);
+        if (user && await this.comparePassword(password, user.password)) {
+            return user;
+        }
+        return null;
+    }
+    async login(user) {
+        const userLogin = await this.validateUser(user.username, user.password);
+        if (!userLogin)
+            throw new common_1.UnauthorizedException('AUTH.LOGIN.FAILED');
+        userLogin.password = null;
+        const token = await this.createAccessToken(userLogin);
+        return Object.assign({ user: userLogin }, token);
+    }
+    async createAccessToken(user) {
+        const expiresIn = config_1.default.jwt.expiresIn;
+        const userInfo = {
+            username: user.user_name,
+            sub: user.id,
+        };
+        const access_token = this.jwtService.sign(userInfo);
+        return {
+            expires_in: expiresIn,
+            access_token: access_token,
+        };
     }
     async hashPassword(password) {
         try {
@@ -50,6 +79,19 @@ let AuthService = class AuthService {
             return { phone_number: username };
         }
         return { username: username };
+    }
+    async register(data) {
+        const created = await this.usersService.create(Object.assign(Object.assign({}, data), { password: await this.hashPassword(data.password), avatar: path_1.join('/', config_1.default.files.baseDirectory, config_1.default.files.defaultsFolderName, 'avatar.png') }));
+        return created;
+    }
+    async changePassword(userId, oldPass, newPass) {
+        let user = await user_model_1.UserModel.findById(userId);
+        if (user) {
+            if (await this.comparePassword(oldPass, user.password))
+                return await this.usersService.updatePassword(userId, await this.hashPassword(newPass));
+            return false;
+        }
+        return false;
     }
 };
 AuthService = __decorate([

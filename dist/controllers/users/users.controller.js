@@ -31,9 +31,9 @@ let UsersController = class UsersController {
             throw new response_dto_1.ResponseError('USER.REGISTER.FAILED', error);
         }
     }
-    async updateUser(data) {
+    async updateUser(userId, data) {
         try {
-            await this.usersService.update(data);
+            await this.usersService.update(userId, data);
             return new response_dto_1.ResponseSuccess("USER.UPDATE.SUCCESSFULLY");
         }
         catch (error) {
@@ -58,9 +58,10 @@ __decorate([
 __decorate([
     common_1.Post('update/:id'),
     common_1.HttpCode(200),
-    __param(0, common_1.Body()),
+    __param(0, common_1.Param('id')),
+    __param(1, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "updateUser", null);
 __decorate([

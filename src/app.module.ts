@@ -19,6 +19,13 @@ import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { UsersService } from './services/users/users.service';
 import { AllExceptionsFilter } from './commons/filters/all-exception.filter';
+import { JobsController } from './controller/jobs/jobs.controller';
+import { JobsController } from './controllers/jobs/jobs.controller';
+import { InvestorsController } from './controllers/investors/investors.controller';
+import { HistoryController } from './controllers/history/history.controller';
+import { HistoryService } from './services/history/history.service';
+import { InvestorsService } from './services/investors/investors.service';
+import { JobsService } from './services/jobs/jobs.service';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -37,12 +44,18 @@ import { AllExceptionsFilter } from './commons/filters/all-exception.filter';
     AppController,
     AuthController,
     UsersController,
+    JobsController,
+    InvestorsController,
+    HistoryController,
   ],
   providers: [
     AppService,
     AuthService,
     UsersService,
     AllExceptionsFilter,
+    HistoryService,
+    InvestorsService,
+    JobsService,
   ]
 })
 export class AppModule { }

@@ -42,9 +42,9 @@ export class UsersController {
 
     @Post('update/:id')
     @HttpCode(200)
-    async updateUser(@Body() data: any) {
+    async updateUser(@Param('id') userId: string, @Body() data: any) {
         try {
-            await this.usersService.update(data);
+            await this.usersService.update(userId, data);
             return new ResponseSuccess("USER.UPDATE.SUCCESSFULLY");
         } catch (error) {
             throw new ResponseError('USER.UPDATE.FAILED');

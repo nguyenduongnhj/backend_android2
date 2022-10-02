@@ -10,7 +10,6 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const user_model_1 = require("../../database/models/user.model");
 const create_user_dto_1 = require("../../commons/dtos/users/create-user.dto");
-const update_user_dto_1 = require("../../commons/dtos/users/update-user.dto");
 let UsersService = class UsersService {
     async findAll() {
         return user_model_1.UserModel.find().exec();
@@ -25,42 +24,11 @@ let UsersService = class UsersService {
         return await user_model_1.UserModel.exists({ phone_number });
     }
     async findOne(filters) {
-        return await user_model_1.UserModel.findOne(filters).populate('total_followers').populate('total_followings');
+        return await user_model_1.UserModel.findOne(filters);
     }
     async create(createTodoDto) {
         var user = new user_model_1.UserModel(Object.assign({}, createTodoDto));
         return user.save();
-    }
-    async update(createTodoDto) {
-        return await user_model_1.UserModel.updateOne({ cmtnd: createTodoDto.cmtnd }, { birthday: createTodoDto.birthday, phone_number: createTodoDto.phone_number, first_name: createTodoDto.first_name, gender: createTodoDto.gender }).exec();
-    }
-    async buyFilm(userId, money, point) {
-        let user = await user_model_1.UserModel.findOne({ cmtnd: userId });
-        if (user.money >= money && user.point >= point) {
-            let money2 = user.money - money;
-            let point2 = user.point - point;
-            await user_model_1.UserModel.updateOne({ cmtnd: userId }, { money: money2, point: point2 }).exec();
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    async recharge(userId, money) {
-        let user = await user_model_1.UserModel.findOne({ cmtnd: userId });
-        let money2 = user.money + money;
-        return await user_model_1.UserModel.updateOne({ cmtnd: userId }, { money: money2 }).exec();
-    }
-    async withdrawMoney(userId, money) {
-        let user = await user_model_1.UserModel.findOne({ cmtnd: userId });
-        if (user.money >= money) {
-            let money2 = user.money - money;
-            await user_model_1.UserModel.updateOne({ cmtnd: userId }, { money: money2 }).exec();
-            return true;
-        }
-        else {
-            return false;
-        }
     }
     async getUser(id) {
         try {
@@ -72,6 +40,12 @@ let UsersService = class UsersService {
     }
     async setAvatar(userId, avatarUrl) {
         return await user_model_1.UserModel.updateOne({ _id: userId }, { avatar: avatarUrl });
+    }
+    async update(userId, updateUserDto) {
+        return await user_model_1.UserModel.updateOne({ _id: userId }, Object.assign({}, updateUserDto)).exec();
+    }
+    async updatePassword(userId, password) {
+        return await user_model_1.UserModel.updateOne({ _id: userId }, { password: password }).exec();
     }
 };
 UsersService = __decorate([

@@ -2,38 +2,28 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HistorySchema = exports.HistoryModel = void 0;
 const mongoose_1 = require("mongoose");
+const config_1 = require("../../config");
 const HistorySchema = new mongoose_1.Schema({
-    cmtnd: {
-        type: String,
-        required: true
-    },
-    film_id: {
+    investor_id: {
         type: mongoose_1.Types.ObjectId,
-        ref: "Film",
-        require: true,
-    },
-    filmName: {
-        type: String,
+        ref: "Investor",
         require: true
     },
-    time: {
-        type: Date,
-        default: Date()
+    type: {
+        type: String,
+        enum: ['saved', 'applied'],
+        default: 'saved'
     },
-    point: {
-        type: Number,
-        require: true,
-        default: 0
+    user_id: {
+        type: mongoose_1.Types.ObjectId,
+        ref: "User",
+        require: true
     },
-    money: {
-        type: Number,
-        require: true,
-        default: 0
+    job_id: {
+        type: mongoose_1.Types.ObjectId,
+        ref: "Job",
+        require: true
     },
-    state: {
-        type: Boolean,
-        default: false
-    }
 }, {
     timestamps: {
         createdAt: 'created_at',
@@ -41,6 +31,8 @@ const HistorySchema = new mongoose_1.Schema({
     }
 });
 exports.HistorySchema = HistorySchema;
-const HistoryModel = mongoose_1.model('History', HistorySchema, 'history');
+HistorySchema.set('toObject', { virtuals: true });
+HistorySchema.set('toJSON', { virtuals: true });
+const HistoryModel = mongoose_1.model('History', HistorySchema, 'historys');
 exports.HistoryModel = HistoryModel;
 //# sourceMappingURL=history.model.js.map

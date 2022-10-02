@@ -6,12 +6,3 @@ export declare class UpdateUserAddressDto {
     province?: Province;
     district?: District;
 }
-export declare class UpdateUserDto {
-    readonly first_name: string;
-    readonly phone_number: string;
-    readonly birthday: Date;
-    readonly point: number;
-    readonly money: number;
-    readonly cmtnd?: string;
-    readonly gender?: string;
-}

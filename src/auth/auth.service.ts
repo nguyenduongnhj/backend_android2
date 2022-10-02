@@ -25,6 +25,53 @@ export class AuthService {
         private jwtService: JwtService,
     ) { }
 
+    async validateUser(username: string, password: string): Promise<User | null> {
+        let filters = await this.username(username);
+        const user = await UserModel.findOne(filters);
+
+        if (user && await this.comparePassword(password, user.password)) {
+            return user;
+        }
+        return null;
+    }
+
+    /*
+    *    Function: Login
+    *    Return: {
+    *       user: object,
+    *       access_token: string
+    *    }
+    */
+    async login(user: any): Promise<any> {
+        const userLogin = await this.validateUser(user.username, user.password);
+
+        // check user exists
+        if (!userLogin) throw new UnauthorizedException('AUTH.LOGIN.FAILED');
+        // remove password
+        userLogin.password = null;
+
+        // create token
+        const token = await this.createAccessToken(userLogin);
+
+        return {
+            user: userLogin,
+            ...token
+        };
+    }
+
+    async createAccessToken(user: User) {
+        const expiresIn = config.jwt.expiresIn;
+        const userInfo = {
+            username: user.user_name,
+            sub: user.id,
+        };
+        const access_token = this.jwtService.sign(userInfo);
+
+        return {
+            expires_in: expiresIn,
+            access_token: access_token,
+        };
+    }
 
     // hash password
     async hashPassword(password: string): Promise<string | null> {
@@ -62,6 +109,32 @@ export class AuthService {
 
         // default login with username
         return { username: username };
+    }
+
+    /*
+    * Function: register
+    */
+    async register(data: CreateUserDto): Promise<User> {
+
+        const created = await this.usersService.create({
+            ...data,
+            password: await this.hashPassword(data.password),
+            avatar: join('/', config.files.baseDirectory, config.files.defaultsFolderName, 'avatar.png')
+        });
+
+        return created;
+    }
+
+    async changePassword(userId: String, oldPass: string, newPass: string): Promise<boolean> {
+        let user = await UserModel.findById(userId);
+
+        if (user) {
+            if (await this.comparePassword(oldPass, user.password))
+                return await this.usersService.updatePassword(userId, await this.hashPassword(newPass));
+            return false;
+        }
+
+        return false;
     }
 
 }
