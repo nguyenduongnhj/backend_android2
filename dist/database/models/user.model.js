@@ -4,32 +4,46 @@ exports.UserSchema = exports.UserModel = void 0;
 const mongoose_1 = require("mongoose");
 const config_1 = require("../../config");
 const UserSchema = new mongoose_1.Schema({
-    first_name: {
+    level: String,
+    address: String,
+    introduct: String,
+    exp: String,
+    skill: String,
+    career: {
         type: String,
-        required: [true, 'First name required']
+        required: [true, 'User name required']
     },
-    cmtnd: {
+    user_name: {
         type: String,
-        required: true
+        required: [true, 'User name required']
     },
-    birthday: Date,
-    phone_number: {
+    email: {
         type: String,
-        unique: [true, "Phone is exists"],
+        unique: [true, "Email is exists"],
+        dropDups: true
+    },
+    password: {
+        type: String,
+        require: true
+    },
+    full_name: {
+        type: String,
+        required: [true, 'name required']
     },
     gender: {
         type: String,
         enum: ['male', 'female', 'other'],
         default: 'other'
     },
-    point: {
-        type: Number,
-        default: 0
+    avatar: {
+        type: String,
+        default: config_1.default.files.baseDirectory + '/defaults/avatar.png'
     },
-    money: {
-        type: Number,
-        default: 0
+    phone_number: {
+        type: String,
+        required: [true, 'phone number required']
     },
+    birthday: Date,
 }, {
     timestamps: {
         createdAt: 'created_at',

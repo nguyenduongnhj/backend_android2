@@ -9,46 +9,73 @@ import {
 import config from 'src/config';
 
 interface User extends Document {
-    first_name?: string;
-    cmtnd?: string;
+    user_name?: string;
+    password?: string;
+    phone_number?: string;
+    full_name?: string;
     birthday?: Date;
-    phone_number?: String;
-    point?: number;
-    gender: String;
-    money?: number;
+    avatar?: string;
+    gender: string;
+    career: string;
+    level: string;
+    address: string;
+    introduct: string;
+    exp: string;
+    skill: string;
+    email: string;
 }
 
 type UserModel = Model<User>;
 
 const UserSchema = new Schema({
+    level: String,
+    address: String,
+    introduct: String,
+    exp: String,
+    skill: String,
+    career: {
+        type: String,
+        required: [true, 'User name required']
+    },
 
-    first_name: {
+    user_name: {
         type: String,
-        required: [true, 'First name required']
+        required: [true, 'User name required']
     },
-    cmtnd: {
+
+    email: {
         type: String,
-        required: true
+        unique: [true, "Email is exists"],
+        dropDups: true
     },
-    birthday: Date,
-    phone_number: {
+
+    password: {
         type: String,
-        unique: [true, "Phone is exists"],
+        require: true
     },
+
+    full_name: {
+        type: String,
+        required: [true, 'name required']
+    },
+
     gender: {
         type: String,
         enum: ['male', 'female', 'other'],
         default: 'other'
     },
-    point: {
-        type: Number,
-        default: 0
-    },
-    money: {
-        type: Number,
-        default: 0
+
+    avatar: {
+        type: String,
+        default: config.files.baseDirectory + '/defaults/avatar.png'
     },
 
+    phone_number: {
+        type: String,
+        required: [true, 'phone number required']
+    },
+
+    birthday: Date,
 }, {
     timestamps: {
         createdAt: 'created_at',
