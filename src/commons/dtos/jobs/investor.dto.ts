@@ -26,5 +26,4 @@ export class CreateInvestorDto {
     @IsOptional()
     readonly other?: string;
 
-
 }

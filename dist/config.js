@@ -11,7 +11,7 @@ exports.default = {
         }
     },
     mongodb: {
-        uri: "mongodb://127.0.0.1:27017/javacard"
+        uri: "mongodb://127.0.0.1:27017/android2"
     },
     jwt: {
         secretOrKey: "doragon",

@@ -55,4 +55,18 @@ export class UsersController {
     }
 
 
+    @Get('me')
+    @HttpCode(200)
+    @UseGuards(JwtAuthGuard)
+    async getUserData(@Request() req: any) {
+        try {
+            var user = await this.usersService.findOne({ _id: req.user.id });
+            if (user) user.password = null;
+            return new ResponseSuccess("USER.GET_ME.SUCCESSFULLY", user);
+        } catch (e) {
+            console.log(e);
+            return new ResponseError("USER.GET_ME.FAILED", e, 400);
+        }
+    }
+
 }

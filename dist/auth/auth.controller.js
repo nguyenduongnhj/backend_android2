@@ -66,7 +66,7 @@ let AuthController = class AuthController {
         let userName = data.username;
         console.log(userName);
         let check = await this.usersService.existsByUsername(userName);
-        return new response_dto_1.ResponseSuccess("AUTH.CHECK_EMPTY_USER.SUCCESSFULLY", check);
+        return new response_dto_1.ResponseSuccess("AUTH.CHECK_EMPTY_USER.SUCCESSFULLY", !check);
     }
 };
 __decorate([

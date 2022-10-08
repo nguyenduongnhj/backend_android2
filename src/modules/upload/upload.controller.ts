@@ -1,10 +1,10 @@
-import { 
-    Controller, Post,
-    UsePipes, ValidationPipe,
-    UploadedFile, UseInterceptors,
-    UseGuards, UploadedFiles,
-    Param, Request, BadRequestException,
-    HttpCode
+import {
+  Controller, Post,
+  UsePipes, ValidationPipe,
+  UploadedFile, UseInterceptors,
+  UseGuards, UploadedFiles,
+  Param, Request, BadRequestException,
+  HttpCode
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -16,6 +16,7 @@ import { ResponseSuccess } from 'src/commons/dtos/response.dto';
 
 /* config */
 import config from 'src/config';
+import { InvestorsService } from 'src/services/investors/investors.service';
 
 @Controller('v1')
 @UseGuards(JwtAuthGuard)
@@ -26,7 +27,7 @@ import config from 'src/config';
   }),
 )
 export class UploadController {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService, private investorService: InvestorsService) { }
 
   // upload sigle image
   @Post('upload/image')
@@ -41,11 +42,11 @@ export class UploadController {
     }),
   )
   public async uploadImageFile(@UploadedFile() file: any) {
-    if(!file || file.fileValidationError){
-        throw new BadRequestException("Invalid file uploaded [Image file allowed]");
+    if (!file || file.fileValidationError) {
+      throw new BadRequestException("Invalid file uploaded [Image file allowed]");
     }
 
-    return new ResponseSuccess("UPLOAD.UPLOADED_SUCCESSFULLY",{
+    return new ResponseSuccess("UPLOAD.UPLOADED_SUCCESSFULLY", {
       originalname: file.originalname,
       filename: join('/', file.destination, file.filename),
     });
@@ -64,14 +65,37 @@ export class UploadController {
     }),
   )
   public async uploadAvatar(@Request() req: any, @Param('userid') userId: string, @UploadedFile() file: any) {
-    if(!file || file.fileValidationError){
-        throw new BadRequestException("Invalid file uploaded [Image file allowed]");
+    if (!file || file.fileValidationError) {
+      throw new BadRequestException("Invalid file uploaded [Image file allowed]");
     }
-    let avatar_path = join('/', file.destination, file.filename); 
+    let avatar_path = join('/', file.destination, file.filename);
     this.usersService.setAvatar(req.user.id, avatar_path);
-    return new ResponseSuccess("UPLOAD.UPLOADED_SUCCESSFULLY",{
-        originalname: file.originalname,
-        filename: avatar_path,
+    return new ResponseSuccess("UPLOAD.UPLOADED_SUCCESSFULLY", {
+      originalname: file.originalname,
+      filename: avatar_path,
+    });
+  }
+
+  @Post('upload/avatar/investor/:userid')
+  @HttpCode(200)
+  @UseInterceptors(
+    FileInterceptor('avatar', {
+      storage: diskStorage({
+        destination: join(config.files.baseDirectory, config.files.imagesAvatarFolderName),
+        filename: editFileName
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  public async uploadAvatarInvestor(@Request() req: any, @Param('userid') userId: string, @UploadedFile() file: any) {
+    if (!file || file.fileValidationError) {
+      throw new BadRequestException("Invalid file uploaded [Image file allowed]");
+    }
+    let avatar_path = join('/', file.destination, file.filename);
+    this.investorService.setAvatar(req.user.id, avatar_path);
+    return new ResponseSuccess("UPLOAD.UPLOADED_SUCCESSFULLY", {
+      originalname: file.originalname,
+      filename: avatar_path,
     });
   }
 
@@ -79,25 +103,25 @@ export class UploadController {
   @Post('upload/images')
   @HttpCode(200)
   @UseInterceptors(
-      FilesInterceptor('images',10, {
+    FilesInterceptor('images', 10, {
       storage: diskStorage({
-          destination: join(config.files.baseDirectory, config.files.imagesFolderName),
-          filename: editFileName
+        destination: join(config.files.baseDirectory, config.files.imagesFolderName),
+        filename: editFileName
       }),
       fileFilter: imageFileFilter,
     }),
   )
   async uploadMultipleFiles(@UploadedFiles() files: Array<Express.Multer.File>) {
-    if(files.length === 0){
-        throw new BadRequestException("Invalid file uploaded [Image file allowed]");
+    if (files.length === 0) {
+      throw new BadRequestException("Invalid file uploaded [Image file allowed]");
     }
     const res: any = [];
     files.forEach(file => {
-        const fileReponse = {
-          originalname: file.originalname,
-          filename: join('/', file.destination, file.filename),
-        };
-        res.push(fileReponse);
+      const fileReponse = {
+        originalname: file.originalname,
+        filename: join('/', file.destination, file.filename),
+      };
+      res.push(fileReponse);
     });
     return new ResponseSuccess("UPLOAD.UPLOADED_SUCCESSFULLY", res);
   }

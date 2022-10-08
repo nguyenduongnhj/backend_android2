@@ -39,7 +39,7 @@ export class UsersService {
 
     async getUser(id: string): Promise<User | null> {
         try {
-            return await UserModel.findOne({ cmtnd: id });
+            return await UserModel.findOne({ _id: id });
         } catch (e) {
             return null;
         }
