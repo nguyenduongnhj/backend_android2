@@ -6,6 +6,7 @@ import {
     User
 } from 'src/database/models/user.model';
 import { CreateUserDto } from 'src/commons/dtos/users/create-user.dto';
+import { InvestorModel } from 'src/database/models/investor.model';
 
 @Injectable()
 export class UsersService {
@@ -47,6 +48,10 @@ export class UsersService {
 
     public async setAvatar(userId: string, avatarUrl: string) {
         return await UserModel.updateOne({ _id: userId }, { avatar: avatarUrl });
+    }
+
+    public async setAvatarInvestor(id: string, avatarUrl: string) {
+        return await InvestorModel.updateOne({ _id: id }, { avatar: avatarUrl });
     }
 
     async update(userId: String, updateUserDto: CreateUserDto): Promise<User | any> {

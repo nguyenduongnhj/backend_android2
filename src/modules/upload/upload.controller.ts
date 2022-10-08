@@ -27,7 +27,10 @@ import { InvestorsService } from 'src/services/investors/investors.service';
   }),
 )
 export class UploadController {
-  constructor(private usersService: UsersService, private investorService: InvestorsService) { }
+  constructor(
+    private usersService: UsersService,
+
+  ) { }
 
   // upload sigle image
   @Post('upload/image')
@@ -92,7 +95,7 @@ export class UploadController {
       throw new BadRequestException("Invalid file uploaded [Image file allowed]");
     }
     let avatar_path = join('/', file.destination, file.filename);
-    this.investorService.setAvatar(req.user.id, avatar_path);
+    this.usersService.setAvatarInvestor(req.user.id, avatar_path);
     return new ResponseSuccess("UPLOAD.UPLOADED_SUCCESSFULLY", {
       originalname: file.originalname,
       filename: avatar_path,
