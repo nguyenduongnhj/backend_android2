@@ -67,10 +67,8 @@ export class AuthController {
         }
         /********/
         try {
-            await this.authService.register(data);
-
-
-            return new ResponseSuccess("AUTH.REGISTER.SUCCESSFULLY");
+            let result = await this.authService.register(data);
+            return new ResponseSuccess("AUTH.REGISTER.SUCCESSFULLY", result);
         } catch (error) {
             throw new BadRequestException('AUTH.REGISTER.FAILED');
         }

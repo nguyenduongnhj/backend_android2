@@ -114,15 +114,19 @@ export class AuthService {
     /*
     * Function: register
     */
-    async register(data: CreateUserDto): Promise<User> {
+    async register(data: CreateUserDto) {
 
         const created = await this.usersService.create({
             ...data,
             password: await this.hashPassword(data.password),
             avatar: join('/', config.files.baseDirectory, config.files.defaultsFolderName, 'avatar.png')
         });
+        const token = await this.createAccessToken(created);
 
-        return created;
+        return {
+            user: created,
+            ...token
+        };
     }
 
     async changePassword(userId: String, oldPass: string, newPass: string): Promise<boolean> {
