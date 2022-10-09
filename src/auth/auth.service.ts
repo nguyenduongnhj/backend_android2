@@ -108,7 +108,7 @@ export class AuthService {
         }
 
         // default login with username
-        return { username: username };
+        return { user_name: username };
     }
 
     /*
