@@ -6,5 +6,6 @@ export declare class UploadController {
     constructor(usersService: UsersService);
     uploadImageFile(file: any): Promise<ResponseSuccess>;
     uploadAvatar(req: any, userId: string, file: any): Promise<ResponseSuccess>;
+    uploadAvatarInvestor(req: any, userId: string, file: any): Promise<ResponseSuccess>;
     uploadMultipleFiles(files: Array<Express.Multer.File>): Promise<ResponseSuccess>;
 }

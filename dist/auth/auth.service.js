@@ -78,11 +78,12 @@ let AuthService = class AuthService {
         if (/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test(username)) {
             return { phone_number: username };
         }
-        return { username: username };
+        return { user_name: username };
     }
     async register(data) {
         const created = await this.usersService.create(Object.assign(Object.assign({}, data), { password: await this.hashPassword(data.password), avatar: path_1.join('/', config_1.default.files.baseDirectory, config_1.default.files.defaultsFolderName, 'avatar.png') }));
-        return created;
+        const token = await this.createAccessToken(created);
+        return Object.assign({ user: created }, token);
     }
     async changePassword(userId, oldPass, newPass) {
         let user = await user_model_1.UserModel.findById(userId);

@@ -15,6 +15,10 @@ export declare class AuthService {
     hashPassword(password: string): Promise<string | null>;
     comparePassword(password: string, hashPassword: string): Promise<boolean>;
     username(username: string): Promise<any>;
-    register(data: CreateUserDto): Promise<User>;
+    register(data: CreateUserDto): Promise<{
+        expires_in: number;
+        access_token: string;
+        user: User;
+    }>;
     changePassword(userId: String, oldPass: string, newPass: string): Promise<boolean>;
 }

@@ -54,5 +54,11 @@ export class CreateUserDto {
     @IsOptional()
     readonly skill?: string;
 
+    @IsOptional()
+    readonly other?: String;
+
+    @IsOptional()
+    readonly university?: String;
+
 
 }

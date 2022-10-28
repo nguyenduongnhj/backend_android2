@@ -25,11 +25,15 @@ interface User extends Document {
     introduct: string;
     exp: string;
     skill: string;
+    other: string;
+    university: string;
 }
 
 type UserModel = Model<User>;
 
 const UserSchema = new Schema({
+    other: String,
+    university: String,
     level: String,
     address: String,
     introduct: String,

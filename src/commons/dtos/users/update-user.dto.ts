@@ -1,19 +1,54 @@
-import { IsOptional } from "class-validator";
+import { IsEmail, IsOptional, Matches } from "class-validator";
 import { District, Province, Ward } from "src/commons/interfaces/address.interface";
 
-export class UpdateUserAddressDto {
-    @IsOptional()
-    address_detail?: string;
+export class UpdateUserDto {
 
     @IsOptional()
-    ward_code?: string;
+    @IsEmail()
+    @Matches(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)
+    readonly email: string;
 
     @IsOptional()
-    ward?: Ward;
+    readonly full_name?: string;
 
     @IsOptional()
-    province?: Province;
+    @Matches(/^\d{10}$/,
+        { message: "USER.CREATE.INVALID_PHONE_NUMBER" }
+    )
+    readonly phone_number?: string;
 
     @IsOptional()
-    district?: District;
+    readonly gender?: string;
+
+    @IsOptional()
+    readonly avatar?: string;
+
+    @IsOptional()
+    readonly address?: string;
+
+    @IsOptional()
+    readonly birthday?: Date;
+
+    @IsOptional()
+    readonly career?: string;
+
+    @IsOptional()
+    readonly level?: string;
+
+    @IsOptional()
+    readonly introduct?: string;
+
+    @IsOptional()
+    readonly exp?: string;
+
+    @IsOptional()
+    readonly skill?: string;
+
+
+    @IsOptional()
+    readonly other?: string;
+
+    @IsOptional()
+    readonly university?: string;
+
 }

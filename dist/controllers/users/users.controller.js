@@ -41,6 +41,18 @@ let UsersController = class UsersController {
             throw new response_dto_1.ResponseError('USER.UPDATE.FAILED');
         }
     }
+    async getUserData(req) {
+        try {
+            var user = await this.usersService.findOne({ _id: req.user.id });
+            if (user)
+                user.password = null;
+            return new response_dto_1.ResponseSuccess("USER.GET_ME.SUCCESSFULLY", user);
+        }
+        catch (e) {
+            console.log(e);
+            return new response_dto_1.ResponseError("USER.GET_ME.FAILED", e, 400);
+        }
+    }
 };
 __decorate([
     common_1.Post('create'),
@@ -60,6 +72,15 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "updateUser", null);
+__decorate([
+    common_1.Get('me'),
+    common_1.HttpCode(200),
+    common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, common_1.Request()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "getUserData", null);
 UsersController = __decorate([
     common_1.Controller('v1/users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

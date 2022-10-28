@@ -10,6 +10,7 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const user_model_1 = require("../../database/models/user.model");
 const create_user_dto_1 = require("../../commons/dtos/users/create-user.dto");
+const investor_model_1 = require("../../database/models/investor.model");
 let UsersService = class UsersService {
     async findAll() {
         return user_model_1.UserModel.find().exec();
@@ -32,7 +33,7 @@ let UsersService = class UsersService {
     }
     async getUser(id) {
         try {
-            return await user_model_1.UserModel.findOne({ cmtnd: id });
+            return await user_model_1.UserModel.findOne({ _id: id });
         }
         catch (e) {
             return null;
@@ -40,6 +41,9 @@ let UsersService = class UsersService {
     }
     async setAvatar(userId, avatarUrl) {
         return await user_model_1.UserModel.updateOne({ _id: userId }, { avatar: avatarUrl });
+    }
+    async setAvatarInvestor(id, avatarUrl) {
+        return await investor_model_1.InvestorModel.updateOne({ _id: id }, { avatar: avatarUrl });
     }
     async update(userId, updateUserDto) {
         return await user_model_1.UserModel.updateOne({ _id: userId }, Object.assign({}, updateUserDto)).exec();

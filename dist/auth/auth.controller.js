@@ -47,8 +47,8 @@ let AuthController = class AuthController {
             }
         }
         try {
-            await this.authService.register(data);
-            return new response_dto_1.ResponseSuccess("AUTH.REGISTER.SUCCESSFULLY");
+            let result = await this.authService.register(data);
+            return new response_dto_1.ResponseSuccess("AUTH.REGISTER.SUCCESSFULLY", result);
         }
         catch (error) {
             throw new common_1.BadRequestException('AUTH.REGISTER.FAILED');

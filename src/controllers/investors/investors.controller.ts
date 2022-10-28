@@ -11,7 +11,7 @@ export class InvestorsController {
     ) { }
 
     @Post('create')
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @HttpCode(200)
     async createInvestor(@Body() data: any) {
         try {

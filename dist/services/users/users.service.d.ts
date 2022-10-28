@@ -10,6 +10,7 @@ export declare class UsersService {
     create(createTodoDto: CreateUserDto): Promise<User>;
     getUser(id: string): Promise<User | null>;
     setAvatar(userId: string, avatarUrl: string): Promise<import("mongoose").UpdateWriteOpResult>;
+    setAvatarInvestor(id: string, avatarUrl: string): Promise<import("mongoose").UpdateWriteOpResult>;
     update(userId: String, updateUserDto: CreateUserDto): Promise<User | any>;
     updatePassword(userId: String, password: string): Promise<User | any>;
 }

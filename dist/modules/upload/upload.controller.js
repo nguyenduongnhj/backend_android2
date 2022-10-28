@@ -22,6 +22,7 @@ const users_service_1 = require("../../services/users/users.service");
 const path_1 = require("path");
 const response_dto_1 = require("../../commons/dtos/response.dto");
 const config_1 = require("../../config");
+const investors_service_1 = require("../../services/investors/investors.service");
 let UploadController = class UploadController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -41,6 +42,17 @@ let UploadController = class UploadController {
         }
         let avatar_path = path_1.join('/', file.destination, file.filename);
         this.usersService.setAvatar(req.user.id, avatar_path);
+        return new response_dto_1.ResponseSuccess("UPLOAD.UPLOADED_SUCCESSFULLY", {
+            originalname: file.originalname,
+            filename: avatar_path,
+        });
+    }
+    async uploadAvatarInvestor(req, userId, file) {
+        if (!file || file.fileValidationError) {
+            throw new common_1.BadRequestException("Invalid file uploaded [Image file allowed]");
+        }
+        let avatar_path = path_1.join('/', file.destination, file.filename);
+        this.usersService.setAvatarInvestor(req.user.id, avatar_path);
         return new response_dto_1.ResponseSuccess("UPLOAD.UPLOADED_SUCCESSFULLY", {
             originalname: file.originalname,
             filename: avatar_path,
@@ -93,6 +105,23 @@ __decorate([
     __metadata("design:paramtypes", [Object, String, Object]),
     __metadata("design:returntype", Promise)
 ], UploadController.prototype, "uploadAvatar", null);
+__decorate([
+    common_1.Post('upload/avatar/investor/:userid'),
+    common_1.HttpCode(200),
+    common_1.UseInterceptors(platform_express_1.FileInterceptor('avatar', {
+        storage: multer_1.diskStorage({
+            destination: path_1.join(config_1.default.files.baseDirectory, config_1.default.files.imagesAvatarFolderName),
+            filename: file_filter_1.editFileName
+        }),
+        fileFilter: file_filter_1.imageFileFilter,
+    })),
+    __param(0, common_1.Request()),
+    __param(1, common_1.Param('userid')),
+    __param(2, common_1.UploadedFile()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, Object]),
+    __metadata("design:returntype", Promise)
+], UploadController.prototype, "uploadAvatarInvestor", null);
 __decorate([
     common_1.Post('upload/images'),
     common_1.HttpCode(200),
