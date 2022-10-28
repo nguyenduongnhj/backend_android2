@@ -6,6 +6,7 @@ interface Investor extends Document {
     introduct: string;
     other: string;
     email: string;
+    cover_image: string;
 }
 declare type InvestorModel = Model<Investor>;
 declare const InvestorSchema: Schema<Document<any, any, any>, Model<any, any, any>, undefined, any>;

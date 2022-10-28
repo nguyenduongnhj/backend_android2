@@ -26,4 +26,6 @@ export class CreateInvestorDto {
     @IsOptional()
     readonly other?: string;
 
+    @IsOptional()
+    readonly cover_image?: string;
 }

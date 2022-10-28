@@ -9,9 +9,13 @@ const InvestorSchema = new mongoose_1.Schema({
         unique: [true, "Email is exists"],
         dropDups: true
     },
+    cover_image: {
+        type: String,
+        default: '\\storage\\avatar.png'
+    },
     avatar: {
         type: String,
-        default: config_1.default.files.baseDirectory + '/defaults/avatar.png'
+        default: '\\storage\\avatar.png'
     },
     phone_number: {
         type: String,

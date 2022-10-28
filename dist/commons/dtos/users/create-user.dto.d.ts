@@ -13,4 +13,6 @@ export declare class CreateUserDto {
     readonly introduct?: string;
     readonly exp?: string;
     readonly skill?: string;
+    readonly other?: String;
+    readonly university?: String;
 }

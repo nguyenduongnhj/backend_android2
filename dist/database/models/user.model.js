@@ -4,6 +4,8 @@ exports.UserSchema = exports.UserModel = void 0;
 const mongoose_1 = require("mongoose");
 const config_1 = require("../../config");
 const UserSchema = new mongoose_1.Schema({
+    other: String,
+    university: String,
     level: String,
     address: String,
     introduct: String,

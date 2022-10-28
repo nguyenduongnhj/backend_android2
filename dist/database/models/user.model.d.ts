@@ -14,6 +14,8 @@ interface User extends Document {
     introduct: string;
     exp: string;
     skill: string;
+    other: string;
+    university: string;
 }
 declare type UserModel = Model<User>;
 declare const UserSchema: Schema<Document<any, any, any>, Model<any, any, any>, undefined, any>;

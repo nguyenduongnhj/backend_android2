@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const user_model_1 = require("../../database/models/user.model");
 const create_user_dto_1 = require("../../commons/dtos/users/create-user.dto");
 const investor_model_1 = require("../../database/models/investor.model");
+const update_user_dto_1 = require("../../commons/dtos/users/update-user.dto");
 let UsersService = class UsersService {
     async findAll() {
         return user_model_1.UserModel.find().exec();

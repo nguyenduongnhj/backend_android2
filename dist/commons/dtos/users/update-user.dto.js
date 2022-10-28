@@ -9,30 +9,69 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateUserAddressDto = void 0;
+exports.UpdateUserDto = void 0;
 const class_validator_1 = require("class-validator");
 const address_interface_1 = require("../../interfaces/address.interface");
-class UpdateUserAddressDto {
+class UpdateUserDto {
 }
 __decorate([
     class_validator_1.IsOptional(),
+    class_validator_1.IsEmail(),
+    class_validator_1.Matches(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i),
     __metadata("design:type", String)
-], UpdateUserAddressDto.prototype, "address_detail", void 0);
+], UpdateUserDto.prototype, "email", void 0);
 __decorate([
     class_validator_1.IsOptional(),
     __metadata("design:type", String)
-], UpdateUserAddressDto.prototype, "ward_code", void 0);
+], UpdateUserDto.prototype, "full_name", void 0);
 __decorate([
     class_validator_1.IsOptional(),
-    __metadata("design:type", Object)
-], UpdateUserAddressDto.prototype, "ward", void 0);
+    class_validator_1.Matches(/^\d{10}$/, { message: "USER.CREATE.INVALID_PHONE_NUMBER" }),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "phone_number", void 0);
 __decorate([
     class_validator_1.IsOptional(),
-    __metadata("design:type", Object)
-], UpdateUserAddressDto.prototype, "province", void 0);
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "gender", void 0);
 __decorate([
     class_validator_1.IsOptional(),
-    __metadata("design:type", Object)
-], UpdateUserAddressDto.prototype, "district", void 0);
-exports.UpdateUserAddressDto = UpdateUserAddressDto;
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "avatar", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "address", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    __metadata("design:type", Date)
+], UpdateUserDto.prototype, "birthday", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "career", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "level", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "introduct", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "exp", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "skill", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "other", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "university", void 0);
+exports.UpdateUserDto = UpdateUserDto;
 //# sourceMappingURL=update-user.dto.js.map

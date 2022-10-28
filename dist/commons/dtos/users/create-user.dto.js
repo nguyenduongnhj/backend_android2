@@ -76,5 +76,13 @@ __decorate([
     class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "skill", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], CreateUserDto.prototype, "other", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], CreateUserDto.prototype, "university", void 0);
 exports.CreateUserDto = CreateUserDto;
 //# sourceMappingURL=create-user.dto.js.map
