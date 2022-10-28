@@ -15,6 +15,7 @@ interface Investor extends Document {
     introduct: string;
     other: string;
     email: string;
+    cover_image: string;
 }
 
 type InvestorModel = Model<Investor>;
@@ -27,9 +28,14 @@ const InvestorSchema = new Schema({
         dropDups: true
     },
 
+    cover_image: {
+        type: String,
+        default: '\\storage\\avatar.png'
+    },
+
     avatar: {
         type: String,
-        default: config.files.baseDirectory + '/defaults/avatar.png'
+        default: '\\storage\\avatar.png'
     },
 
     phone_number: {
