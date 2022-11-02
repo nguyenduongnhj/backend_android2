@@ -80,4 +80,9 @@ export class HistoryService {
         return await HistoryModel.updateOne({ _id: id }, { type: type }).exec();
     }
 
+    async deleteJob(id: String) {
+        return await HistoryModel.deleteOne({ _id: id })
+
+    }
+
 }

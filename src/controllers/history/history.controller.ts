@@ -29,7 +29,7 @@ export class HistoryController {
     @HttpCode(200)
     async getListJob(@Query('page') page) {
         try {
-            let result = this.service.getListHistory(page)
+            let result = await this.service.getListHistory(page)
             return new ResponseSuccess("GET.JOB.SUCCESSFULLY", result);
         }
         catch (e) {
@@ -42,18 +42,50 @@ export class HistoryController {
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
     async update(@Param() params, @Body() body) {
-
         try {
             let id = params.id
             let data = body.type
-            let result = this.service.updateType(id, data)
-            return new ResponseSuccess("GET.JOB.SUCCESSFULLY", result);
+            let result = await this.service.updateType(id, data)
+            return new ResponseSuccess("UPDATE.JOB.SUCCESSFULLY", result);
         }
         catch (e) {
             console.log("e = " + e)
-            return new ResponseSuccess("GET.JOB.SUCCESSFULLY");
+            return new ResponseSuccess("UPDATE.JOB.SUCCESSFULLY");
         }
-
     }
+
+    @Get('apply:/id')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    async applyJob(@Param() params) {
+
+        try {
+            let id = params.id
+            let data = "applied"
+            let result = await this.service.updateType(id, data)
+            return new ResponseSuccess("APPLY.JOB.SUCCESSFULLY", result);
+        }
+        catch (e) {
+            console.log("e = " + e)
+            return new ResponseSuccess("APPLY.JOB.SUCCESSFULLY");
+        }
+    }
+
+    @Get('delete:/id')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    async deleteJob(@Param() params) {
+        try {
+            let id = params.id
+            let result = await this.service.deleteJob(id)
+            return new ResponseSuccess("APPLY.JOB.SUCCESSFULLY", result);
+        }
+        catch (e) {
+            console.log("e = " + e)
+            return new ResponseSuccess("APPLY.JOB.SUCCESSFULLY");
+        }
+    }
+
+
 
 }
