@@ -40,12 +40,41 @@ export class JobsService {
             }
         }
 
+        let matchType = {
+            $lookup: {
+                from: 'historys',
+                let: { "jobId": "$job_id" },
+                "pipeline": [
+                    {
+                        "$match": {
+                            "$expr": { "$eq": ["$job_id", "$$jobId"] }
+                        }
+                    }
+                ],
+                "as": "history"
+            }
+        }
+
+
+
         let data = await JobModel.aggregate([
             matchInvestor,
             {
                 $unwind: {
                     path: "$investor",
                     preserveNullAndEmptyArrays: true
+                }
+            },
+            matchType,
+            {
+                $unwind: {
+                    path: "$history",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $addFields: {
+                    "history_type": "$history.type",
                 }
             },
             { $sort: { created_at: -1 } },
@@ -65,6 +94,22 @@ export class JobsService {
             data: [],
             next_page: "",
             prev_page: ""
+        }
+
+
+        let matchType = {
+            $lookup: {
+                from: 'historys',
+                let: { "jobId": "$job_id" },
+                "pipeline": [
+                    {
+                        "$match": {
+                            "$expr": { "$eq": ["$job_id", "$$jobId"] }
+                        }
+                    }
+                ],
+                "as": "history"
+            }
         }
 
         let matchInvestor = {
@@ -95,6 +140,18 @@ export class JobsService {
                     preserveNullAndEmptyArrays: true
                 }
             },
+            matchType,
+            {
+                $unwind: {
+                    path: "$history",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $addFields: {
+                    "history_type": "$history.type",
+                }
+            },
             { $sort: { created_at: -1 } },
             { $skip: skip },
             { $limit: 10 },
@@ -113,6 +170,22 @@ export class JobsService {
             data: [],
             next_page: "",
             prev_page: ""
+        }
+
+
+        let matchType = {
+            $lookup: {
+                from: 'historys',
+                let: { "jobId": "$job_id" },
+                "pipeline": [
+                    {
+                        "$match": {
+                            "$expr": { "$eq": ["$job_id", "$$jobId"] }
+                        }
+                    }
+                ],
+                "as": "history"
+            }
         }
 
         let matchInvestor = {
@@ -141,6 +214,18 @@ export class JobsService {
                 $unwind: {
                     path: "$investor",
                     preserveNullAndEmptyArrays: true
+                }
+            },
+            matchType,
+            {
+                $unwind: {
+                    path: "$history",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $addFields: {
+                    "history_type": "$history.type",
                 }
             },
             { $sort: { created_at: -1 } },
